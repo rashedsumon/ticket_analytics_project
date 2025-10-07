@@ -10,7 +10,10 @@ st.title("🎟️ Live Event Ticket Analytics Dashboard")
 # Load Data
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/Taylor_Train.csv", encoding='utf-8')
+    try:
+        df = pd.read_csv("data/Taylor_Train.csv", encoding='utf-8')
+    except UnicodeDecodeError:
+        df = pd.read_csv("data/Taylor_Train.csv", encoding='latin1')  # fallback
     return df
 
 data = load_data()
