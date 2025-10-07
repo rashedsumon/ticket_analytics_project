@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+*.egg-info/
+dist/
+
+# Streamlit
+.streamlit/
+
+# Data
+data/
+*.csv
+
+# Jupyter
+.ipynb_checkpoints/
