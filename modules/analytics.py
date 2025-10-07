@@ -1,13 +1,16 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+import pandas as pd
 
 def plot_ticket_trends(df):
     """
-    Plot ticket sales trends over time
+    Plot ticket sales trends by Tour or City (since Date column is missing)
     """
-    if 'Date' in df.columns and 'Tickets_Sold' in df.columns:
-        df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
-        trend = df.groupby('Date')['Tickets_Sold'].sum()
-        st.line_chart(trend)
+    if 'Tickets_Sold' in df.columns:
+        # Group by Tour and sum tickets sold
+        trend = df.groupby('Tour')['Tickets_Sold'].sum().sort_values(ascending=False)
+        
+        st.subheader("Ticket Sales by Tour")
+        st.bar_chart(trend)
     else:
-        st.warning("Columns 'Date' or 'Tickets_Sold' not found in data.")
+        st.warning("Column 'Tickets_Sold' not found in data.")
