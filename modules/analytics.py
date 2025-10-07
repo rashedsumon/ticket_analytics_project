@@ -1,16 +1,21 @@
 import streamlit as st
-import matplotlib.pyplot as plt
 import pandas as pd
 
-def plot_ticket_trends(df):
+def plot_ticket_trends(df: pd.DataFrame):
     """
-    Plot ticket sales trends by Tour or City (since Date column is missing)
+    Plot ticket sales trends by Tour.
+    If 'Tickets_Sold' column is missing, show a warning.
     """
-    if 'Tickets_Sold' in df.columns:
-        # Group by Tour and sum tickets sold
-        trend = df.groupby('Tour')['Tickets_Sold'].sum().sort_values(ascending=False)
-        
-        st.subheader("Ticket Sales by Tour")
-        st.bar_chart(trend)
-    else:
-        st.warning("Column 'Tickets_Sold' not found in data.")
+    if 'Tickets_Sold' not in df.columns:
+        st.warning("Column 'Tickets_Sold' not found in the dataset.")
+        return
+
+    if 'Tour' not in df.columns:
+        st.warning("Column 'Tour' not found in the dataset.")
+        return
+
+    # Aggregate ticket sales by Tour
+    ticket_trend = df.groupby('Tour')['Tickets_Sold'].sum().sort_values(ascending=False)
+
+    st.subheader("Ticket Sales by Tour")
+    st.bar_chart(ticket_trend)
